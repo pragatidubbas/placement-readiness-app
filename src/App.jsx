@@ -9,6 +9,16 @@ import Profile from './pages/Profile'
 import Results from './pages/Results'
 import TestChecklist from './pages/TestChecklist'
 import Ship from './pages/Ship'
+import ResumeBuilderLayout from './layouts/ResumeBuilderLayout'
+import Problem from './pages/rb/Problem'
+import Market from './pages/rb/Market'
+import Architecture from './pages/rb/Architecture'
+import HLD from './pages/rb/HLD'
+import LLD from './pages/rb/LLD'
+import Build from './pages/rb/Build'
+import Test from './pages/rb/Test'
+import RBShip from './pages/rb/Ship'
+import Proof from './pages/rb/Proof'
 
 function App() {
   return (
@@ -24,6 +34,19 @@ function App() {
       </Route>
       <Route path="/prp/07-test" element={<TestChecklist />} />
       <Route path="/prp/08-ship" element={<Ship />} />
+      
+      {/* Resume Builder Routes */}
+      <Route path="/rb" element={<ResumeBuilderLayout />}>
+        <Route path="01-problem" element={<Problem />} />
+        <Route path="02-market" element={<Market />} />
+        <Route path="03-architecture" element={<Architecture />} />
+        <Route path="04-hld" element={<HLD />} />
+        <Route path="05-lld" element={<LLD />} />
+        <Route path="06-build" element={<Build />} />
+        <Route path="07-test" element={<Test />} />
+        <Route path="08-ship" element={<RBShip />} />
+      </Route>
+      <Route path="/rb/proof" element={<Proof />} />
     </Routes>
   )
 }
