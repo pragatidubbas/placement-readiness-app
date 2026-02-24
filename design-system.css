@@ -1,0 +1,406 @@
+/* KodNest Premium Build System - Design System */
+
+/* ============================================
+   COLOR SYSTEM
+   ============================================ */
+:root {
+  /* Core Colors */
+  --color-background: #F7F6F3;
+  --color-text-primary: #111111;
+  --color-accent: #8B0000;
+  --color-success: #2D5016;
+  --color-warning: #8B6914;
+  
+  /* Semantic Colors */
+  --color-border: #D4D2CC;
+  --color-surface: #FFFFFF;
+  --color-text-secondary: #5A5A5A;
+  
+  /* Spacing Scale */
+  --space-xs: 8px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 40px;
+  --space-xl: 64px;
+  
+  /* Typography */
+  --font-serif: 'Crimson Pro', 'Georgia', serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  
+  --text-body-size: 16px;
+  --text-body-line-height: 1.7;
+  --text-max-width: 720px;
+  
+  /* Transitions */
+  --transition-standard: 150ms ease-in-out;
+  
+  /* Layout */
+  --workspace-width: 70%;
+  --panel-width: 30%;
+}
+
+/* ============================================
+   RESET & BASE
+   ============================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line-height);
+  color: var(--color-text-primary);
+  background-color: var(--color-background);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+h1, h2, h3 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-size: 48px;
+  line-height: 1.2;
+  margin-bottom: var(--space-sm);
+}
+
+h2 {
+  font-size: 32px;
+  line-height: 1.3;
+  margin-bottom: var(--space-sm);
+}
+
+h3 {
+  font-size: 24px;
+  line-height: 1.4;
+  margin-bottom: var(--space-xs);
+}
+
+p {
+  max-width: var(--text-max-width);
+  margin-bottom: var(--space-md);
+}
+
+.subtext {
+  color: var(--color-text-secondary);
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+/* ============================================
+   LAYOUT STRUCTURE
+   ============================================ */
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* TOP BAR */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-sm) var(--space-lg);
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.project-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.progress-indicator {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+.status-badge {
+  padding: var(--space-xs) var(--space-sm);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.status-badge.not-started {
+  color: var(--color-text-secondary);
+}
+
+.status-badge.in-progress {
+  color: var(--color-warning);
+  border-color: var(--color-warning);
+}
+
+.status-badge.shipped {
+  color: var(--color-success);
+  border-color: var(--color-success);
+}
+
+/* CONTEXT HEADER */
+.context-header {
+  padding: var(--space-xl) var(--space-lg) var(--space-lg);
+  background-color: var(--color-background);
+}
+
+/* MAIN CONTENT */
+.main-content {
+  flex: 1;
+  display: flex;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+}
+
+.primary-workspace {
+  flex: 0 0 var(--workspace-width);
+}
+
+.secondary-panel {
+  flex: 0 0 calc(var(--panel-width) - var(--space-md));
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: var(--space-md);
+}
+
+/* PROOF FOOTER */
+.proof-footer {
+  background-color: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  padding: var(--space-md) var(--space-lg);
+}
+
+.proof-checklist {
+  display: flex;
+  gap: var(--space-lg);
+  list-style: none;
+}
+
+.proof-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: 14px;
+}
+
+.proof-checkbox {
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--color-border);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all var(--transition-standard);
+}
+
+.proof-checkbox.checked {
+  background-color: var(--color-success);
+  border-color: var(--color-success);
+}
+
+/* ============================================
+   COMPONENTS
+   ============================================ */
+
+/* BUTTONS */
+.btn {
+  padding: var(--space-sm) var(--space-md);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-standard);
+  display: inline-block;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background-color: var(--color-accent);
+  color: var(--color-surface);
+  border: 1px solid var(--color-accent);
+}
+
+.btn-primary:hover {
+  background-color: #6D0000;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+}
+
+.btn-secondary:hover {
+  border-color: var(--color-text-primary);
+}
+
+.btn-group {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+/* CARDS */
+.card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: var(--space-sm);
+}
+
+/* INPUTS */
+.input {
+  width: 100%;
+  padding: var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background-color: var(--color-surface);
+  transition: border-color var(--transition-standard);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-text-primary);
+}
+
+.input::placeholder {
+  color: var(--color-text-secondary);
+}
+
+textarea.input {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.6;
+}
+
+/* PROMPT BOX */
+.prompt-box {
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: var(--space-sm);
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: var(--space-sm);
+  position: relative;
+}
+
+.prompt-box-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-xs);
+}
+
+.prompt-label {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-secondary);
+}
+
+/* STEP EXPLANATION */
+.step-explanation {
+  margin-bottom: var(--space-md);
+}
+
+.step-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: var(--space-xs);
+}
+
+.step-description {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+
+/* ============================================
+   STATES
+   ============================================ */
+
+/* ERROR STATE */
+.error-state {
+  padding: var(--space-md);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-accent);
+  border-radius: 4px;
+}
+
+.error-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-accent);
+  margin-bottom: var(--space-xs);
+}
+
+.error-message {
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: var(--space-sm);
+}
+
+.error-solution {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+/* EMPTY STATE */
+.empty-state {
+  text-align: center;
+  padding: var(--space-xl);
+}
+
+.empty-state-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: var(--space-xs);
+}
+
+.empty-state-message {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-md);
+}
+
+/* ============================================
+   UTILITIES
+   ============================================ */
+.text-center {
+  text-align: center;
+}
+
+.mb-xs { margin-bottom: var(--space-xs); }
+.mb-sm { margin-bottom: var(--space-sm); }
+.mb-md { margin-bottom: var(--space-md); }
+.mb-lg { margin-bottom: var(--space-lg); }
+.mb-xl { margin-bottom: var(--space-xl); }
+
+.mt-xs { margin-top: var(--space-xs); }
+.mt-sm { margin-top: var(--space-sm); }
+.mt-md { margin-top: var(--space-md); }
+.mt-lg { margin-top: var(--space-lg); }
+.mt-xl { margin-top: var(--space-xl); }
