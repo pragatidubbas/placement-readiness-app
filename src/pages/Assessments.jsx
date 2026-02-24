@@ -69,7 +69,7 @@ function Assessments() {
                       {entry.company || 'Unknown Company'}
                     </h3>
                     <span className="px-3 py-1 bg-purple-100 text-primary rounded-full text-sm font-semibold">
-                      Score: {entry.readinessScore}
+                      Score: {entry.currentReadinessScore || entry.readinessScore}
                     </span>
                   </div>
                   <p className="text-gray-700 font-medium mb-2">

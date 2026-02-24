@@ -7,6 +7,7 @@ export function saveAnalysis(analysisData) {
   const newEntry = {
     id: Date.now().toString(),
     createdAt: new Date().toISOString(),
+    skillConfidenceMap: {}, // Initialize empty confidence map
     ...analysisData
   }
   
@@ -14,6 +15,19 @@ export function saveAnalysis(analysisData) {
   localStorage.setItem(HISTORY_KEY, JSON.stringify(history))
   
   return newEntry
+}
+
+export function updateAnalysis(id, updates) {
+  const history = getHistory()
+  const index = history.findIndex(entry => entry.id === id)
+  
+  if (index !== -1) {
+    history[index] = { ...history[index], ...updates }
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(history))
+    return history[index]
+  }
+  
+  return null
 }
 
 export function getHistory() {
