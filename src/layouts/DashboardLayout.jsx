@@ -4,8 +4,8 @@ import { LayoutDashboard, Code, FileText, BookOpen, User } from 'lucide-react'
 function DashboardLayout() {
   const navItems = [
     { path: '/app', label: 'Dashboard', icon: LayoutDashboard },
-    { path: '/app/practice', label: 'Practice', icon: Code },
-    { path: '/app/assessments', label: 'Assessments', icon: FileText },
+    { path: '/app/practice', label: 'JD Analysis', icon: Code },
+    { path: '/app/assessments', label: 'History', icon: FileText },
     { path: '/app/resources', label: 'Resources', icon: BookOpen },
     { path: '/app/profile', label: 'Profile', icon: User }
   ]
