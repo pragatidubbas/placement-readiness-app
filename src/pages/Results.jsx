@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useSearchParams, useNavigate } from 'react-router-dom'
 import { getAnalysisById, updateAnalysis } from '../utils/historyManager'
 import { copy7DayPlan, copyChecklist, copyQuestions, downloadAsTxt } from '../utils/exportUtils'
+import { calculateFinalScore } from '../utils/schemaUtils'
 import { CheckCircle2, Calendar, Lightbulb, Target, ArrowLeft, Download, Copy, AlertCircle, Building2, TrendingUp, Users } from 'lucide-react'
 
 function Results() {
@@ -31,25 +32,14 @@ function Results() {
   useEffect(() => {
     if (analysis) {
       // Calculate live score based on skill confidence
-      let score = analysis.readinessScore
-      
-      Object.values(skillConfidenceMap).forEach(confidence => {
-        if (confidence === 'know') {
-          score += 2
-        } else if (confidence === 'practice') {
-          score -= 2
-        }
-      })
-      
-      // Bounds: 0-100
-      score = Math.max(0, Math.min(100, score))
-      setCurrentScore(score)
+      const finalScore = calculateFinalScore(analysis.readinessScore, skillConfidenceMap)
+      setCurrentScore(finalScore)
       
       // Save to history
       if (analysis.id) {
         updateAnalysis(analysis.id, {
           skillConfidenceMap,
-          currentReadinessScore: score
+          currentReadinessScore: finalScore
         })
       }
     }

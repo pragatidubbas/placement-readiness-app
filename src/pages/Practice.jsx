@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import { extractSkills, calculateReadinessScore, generateChecklist, generate7DayPlan, generateInterviewQuestions } from '../utils/skillExtractor'
 import { saveAnalysis } from '../utils/historyManager'
 import { generateCompanyIntel } from '../utils/companyIntel'
+import { validateJDInput } from '../utils/validation'
+import { createStandardizedEntry } from '../utils/schemaUtils'
+import { AlertCircle } from 'lucide-react'
 
 function Practice() {
   const navigate = useNavigate()
@@ -11,9 +14,26 @@ function Practice() {
     role: '',
     jdText: ''
   })
+  const [validation, setValidation] = useState({ errors: [], warnings: [] })
+
+  const handleJDChange = (e) => {
+    const jdText = e.target.value
+    setFormData({ ...formData, jdText })
+    
+    // Validate on change
+    const result = validateJDInput(jdText)
+    setValidation(result)
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    
+    // Final validation
+    const result = validateJDInput(formData.jdText)
+    if (!result.isValid) {
+      setValidation(result)
+      return
+    }
     
     // Extract skills and generate analysis
     const extractedSkills = extractSkills(formData.jdText)
@@ -33,8 +53,8 @@ function Practice() {
       extractedSkills
     )
     
-    // Save to history
-    const analysis = saveAnalysis({
+    // Create standardized entry
+    const standardizedData = createStandardizedEntry({
       company: formData.company,
       role: formData.role,
       jdText: formData.jdText,
@@ -45,6 +65,9 @@ function Practice() {
       questions,
       companyIntel
     })
+    
+    // Save to history
+    const analysis = saveAnalysis(standardizedData)
     
     // Navigate to results with the analysis ID
     navigate(`/app/results?id=${analysis.id}`)
@@ -88,20 +111,40 @@ function Practice() {
           </label>
           <textarea
             value={formData.jdText}
-            onChange={(e) => setFormData({ ...formData, jdText: e.target.value })}
+            onChange={handleJDChange}
             required
             rows={12}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition resize-y"
+            className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition resize-y ${
+              validation.errors.length > 0 
+                ? 'border-red-500' 
+                : validation.warnings.length > 0 
+                ? 'border-yellow-500' 
+                : 'border-gray-300'
+            }`}
             placeholder="Paste the complete job description here..."
           />
-          <p className="text-sm text-gray-500 mt-2">
-            {formData.jdText.length} characters
-          </p>
+          <div className="flex items-start justify-between mt-2">
+            <p className="text-sm text-gray-500">
+              {formData.jdText.length} characters
+            </p>
+            {validation.warnings.length > 0 && (
+              <div className="flex items-start gap-2 text-sm text-yellow-700 bg-yellow-50 px-3 py-2 rounded-lg max-w-md">
+                <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                <span>{validation.warnings[0]}</span>
+              </div>
+            )}
+          </div>
+          {validation.errors.length > 0 && (
+            <p className="text-sm text-red-600 mt-2 flex items-center gap-2">
+              <AlertCircle className="w-4 h-4" />
+              {validation.errors[0]}
+            </p>
+          )}
         </div>
 
         <button
           type="submit"
-          disabled={!formData.jdText.trim()}
+          disabled={!formData.jdText.trim() || validation.errors.length > 0}
           className="w-full bg-primary hover:bg-purple-700 text-white font-semibold py-4 rounded-lg transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
         >
           Analyze Job Description

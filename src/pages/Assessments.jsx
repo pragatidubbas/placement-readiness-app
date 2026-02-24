@@ -1,17 +1,20 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getHistory, deleteAnalysis } from '../utils/historyManager'
-import { Trash2, Eye, FileText } from 'lucide-react'
+import { getHistory, deleteAnalysis, getCorruptedEntriesCount } from '../utils/historyManager'
+import { Trash2, Eye, FileText, AlertTriangle } from 'lucide-react'
 
 function Assessments() {
   const navigate = useNavigate()
   const [history, setHistory] = useState([])
+  const [corruptedCount, setCorruptedCount] = useState(0)
 
   useEffect(() => {
     loadHistory()
   }, [])
 
   const loadHistory = () => {
+    const corrupted = getCorruptedEntriesCount()
+    setCorruptedCount(corrupted)
     setHistory(getHistory())
   }
 
@@ -40,6 +43,22 @@ function Assessments() {
           New Analysis
         </button>
       </div>
+
+      {corruptedCount > 0 && (
+        <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+          <div className="flex items-start gap-3">
+            <AlertTriangle className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
+            <div>
+              <p className="text-sm font-semibold text-yellow-800">
+                {corruptedCount} saved {corruptedCount === 1 ? 'entry' : 'entries'} couldn't be loaded.
+              </p>
+              <p className="text-sm text-yellow-700 mt-1">
+                Create a new analysis to continue. Corrupted entries have been automatically removed.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
 
       {history.length === 0 ? (
         <div className="bg-white p-12 rounded-lg shadow text-center">
