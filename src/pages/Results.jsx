@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useSearchParams, useNavigate } from 'react-router-dom'
 import { getAnalysisById, updateAnalysis } from '../utils/historyManager'
 import { copy7DayPlan, copyChecklist, copyQuestions, downloadAsTxt } from '../utils/exportUtils'
-import { CheckCircle2, Calendar, Lightbulb, Target, ArrowLeft, Download, Copy, AlertCircle } from 'lucide-react'
+import { CheckCircle2, Calendar, Lightbulb, Target, ArrowLeft, Download, Copy, AlertCircle, Building2, TrendingUp, Users } from 'lucide-react'
 
 function Results() {
   const [searchParams] = useSearchParams()
@@ -144,6 +144,111 @@ function Results() {
           </div>
         </div>
       </div>
+
+      {/* Company Intel */}
+      {analysis.companyIntel && analysis.company && (
+        <div className="bg-gradient-to-br from-indigo-50 to-purple-50 border-2 border-indigo-200 rounded-lg p-8 mb-6">
+          <div className="flex items-start gap-4 mb-6">
+            <Building2 className="w-8 h-8 text-primary flex-shrink-0" />
+            <div className="flex-1">
+              <h2 className="text-2xl font-bold text-gray-900 mb-1">Company Intel</h2>
+              <p className="text-xs text-gray-500 italic">Demo Mode: Company intel generated heuristically</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div className="bg-white rounded-lg p-4 border border-indigo-200">
+              <div className="flex items-center gap-2 mb-2">
+                <Building2 className="w-5 h-5 text-primary" />
+                <h3 className="font-semibold text-gray-900">Company</h3>
+              </div>
+              <p className="text-gray-700">{analysis.companyIntel.company}</p>
+            </div>
+
+            <div className="bg-white rounded-lg p-4 border border-indigo-200">
+              <div className="flex items-center gap-2 mb-2">
+                <TrendingUp className="w-5 h-5 text-primary" />
+                <h3 className="font-semibold text-gray-900">Industry</h3>
+              </div>
+              <p className="text-gray-700">{analysis.companyIntel.industry}</p>
+            </div>
+
+            <div className="bg-white rounded-lg p-4 border border-indigo-200">
+              <div className="flex items-center gap-2 mb-2">
+                <Users className="w-5 h-5 text-primary" />
+                <h3 className="font-semibold text-gray-900">Size</h3>
+              </div>
+              <p className="text-gray-700">{analysis.companyIntel.sizeLabel}</p>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-lg p-6 border border-indigo-200">
+            <h3 className="font-bold text-lg text-gray-900 mb-3">
+              Typical Hiring Focus: {analysis.companyIntel.hiringFocus.title}
+            </h3>
+            <ul className="space-y-2">
+              {analysis.companyIntel.hiringFocus.points.map((point, idx) => (
+                <li key={idx} className="flex items-start gap-2 text-sm text-gray-700">
+                  <span className="text-primary mt-1">•</span>
+                  <span>{point}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
+
+      {/* Round Mapping */}
+      {analysis.companyIntel && analysis.companyIntel.roundMapping && (
+        <div className="bg-white p-8 rounded-lg shadow mb-6">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+            <Target className="w-6 h-6 text-primary" />
+            Interview Round Mapping
+          </h2>
+          
+          <div className="relative">
+            {/* Vertical timeline line */}
+            <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gray-200"></div>
+            
+            <div className="space-y-6">
+              {analysis.companyIntel.roundMapping.map((round, idx) => (
+                <div key={idx} className="relative pl-16">
+                  {/* Round number circle */}
+                  <div className="absolute left-0 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold text-lg z-10">
+                    {round.round}
+                  </div>
+                  
+                  <div className="bg-gray-50 rounded-lg p-6 border-2 border-gray-200 hover:border-primary transition-colors">
+                    <div className="flex items-start justify-between mb-3">
+                      <div>
+                        <h3 className="text-xl font-bold text-gray-900 mb-1">
+                          {round.title}
+                        </h3>
+                        <p className="text-sm text-gray-600">{round.description}</p>
+                      </div>
+                      <span className="text-xs font-semibold text-primary bg-purple-100 px-3 py-1 rounded-full whitespace-nowrap">
+                        {round.duration}
+                      </span>
+                    </div>
+                    
+                    <div className="mb-3">
+                      <span className="text-sm font-semibold text-gray-700">Focus: </span>
+                      <span className="text-sm text-gray-600">{round.focus}</span>
+                    </div>
+                    
+                    <div className="bg-blue-50 border-l-4 border-blue-400 p-3 rounded">
+                      <p className="text-sm text-gray-700">
+                        <span className="font-semibold text-blue-900">Why this matters: </span>
+                        {round.why}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Extracted Skills with Toggle */}
       <div className="bg-white p-8 rounded-lg shadow mb-6">

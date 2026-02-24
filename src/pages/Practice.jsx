@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { extractSkills, calculateReadinessScore, generateChecklist, generate7DayPlan, generateInterviewQuestions } from '../utils/skillExtractor'
 import { saveAnalysis } from '../utils/historyManager'
+import { generateCompanyIntel } from '../utils/companyIntel'
 
 function Practice() {
   const navigate = useNavigate()
@@ -25,6 +26,12 @@ function Practice() {
     const checklist = generateChecklist(extractedSkills)
     const plan = generate7DayPlan(extractedSkills)
     const questions = generateInterviewQuestions(extractedSkills)
+    const companyIntel = generateCompanyIntel(
+      formData.company,
+      formData.role,
+      formData.jdText,
+      extractedSkills
+    )
     
     // Save to history
     const analysis = saveAnalysis({
@@ -35,7 +42,8 @@ function Practice() {
       readinessScore,
       checklist,
       plan,
-      questions
+      questions,
+      companyIntel
     })
     
     // Navigate to results with the analysis ID
